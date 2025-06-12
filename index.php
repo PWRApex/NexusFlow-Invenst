@@ -143,112 +143,143 @@ $successMessage = getSuccessMessage();
     <style>
         body {
             background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .sidebar {
-            height: 100vh;
-            background-color: #343a40;
-            color: white;
+            width: 250px;
+            min-height: 100vh;
             position: fixed;
-            transition: all 0.3s;
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 20px 0;
+            background: linear-gradient(180deg, #2c3e50, #3498db);
+            color: white;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
-        .sidebar.collapsed {
-            margin-left: -250px;
-        }
+        
         .sidebar-header {
             padding: 20px;
-            background-color: #212529;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .sidebar ul li a {
-            padding: 15px;
-            display: block;
+        
+        .sidebar-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .list-unstyled.components {
+            padding: 20px 0;
+        }
+        
+        .list-unstyled.components li {
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .list-unstyled.components li a {
             color: white;
             text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 5px;
             transition: all 0.3s;
         }
-        .sidebar ul li a:hover {
-            background-color: #495057;
+        
+        .list-unstyled.components li a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
         }
-        .sidebar ul li.active a {
-            background-color: #0d6efd;
+        
+        .list-unstyled.components li.active a {
+            background: rgba(255,255,255,0.2);
+            font-weight: bold;
         }
+        
         .content {
+            margin-left: 250px;
+            padding: 20px;
             transition: all 0.3s;
         }
-        .content.expanded {
-            margin-left: 0;
-        }
-        .navbar {
-            background-color: white;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            margin-bottom: 20px;
-        }
-        .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-            font-weight: 600;
-        }
-        .budget-card {
-            background-color: #0d6efd;
-            color: white;
-        }
-        .income-card {
-            background-color: #198754;
-            color: white;
-        }
-        .expense-card {
-            background-color: #dc3545;
-            color: white;
-        }
-        .budget-amount {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-        .list-group-item {
-            border: none;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-            margin-bottom: 0;
-            padding: 15px;
-        }
-        .list-group-item:last-child {
-            border-bottom: none;
-        }
-        .income-item {
-            border-left: 4px solid #198754;
-        }
-        .expense-item {
-            border-left: 4px solid #dc3545;
-        }
-        .item-amount {
-            font-weight: 600;
-        }
-        .income-amount {
-            color: #198754;
-        }
-        .expense-amount {
-            color: #dc3545;
-        }
-        .btn-toggle-sidebar {
-            margin-right: 15px;
-        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 margin-left: -250px;
+                position: fixed;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
             }
+            
             .sidebar.active {
                 margin-left: 0;
             }
+            
             .content {
                 margin-left: 0;
             }
-            .sidebar-header h3 {
-                font-size: 1.2rem;
+            
+            .content.active {
+                margin-left: 250px;
+            }
+            
+            .btn-toggle-sidebar {
+                display: block;
             }
         }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .budget-card {
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            color: white;
+        }
+
+        .income-card {
+            background: linear-gradient(45deg, #134e5e, #71b280);
+            color: white;
+        }
+        
+        .expense-card {
+            background: linear-gradient(45deg, #cb2d3e, #ef473a);
+            color: white;
+        }
+        
+        .btn-light {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .btn-light:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-card {
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            color: white;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+    
     </style>
 </head>
 <body>
@@ -260,22 +291,34 @@ $successMessage = getSuccessMessage();
             </div>
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="index.php"><i class="fas fa-tachometer-alt me-2"></i> Gösterge Paneli</a>
+                    <a href="index.php">
+                        <i class="fas fa-chart-line"></i> Gösterge Paneli
+                    </a>
                 </li>
                 <li>
-                    <a href="#"><i class="fas fa-chart-bar me-2"></i> Analitik</a>
+                    <a href="analiz.php">
+                        <i class="fas fa-chart-bar"></i> Analiz
+                    </a>
                 </li>
                 <li>
-                    <a href="./assets/view/budget.php"><i class="fas fa-wallet me-2"></i> Bütçe</a>
+                    <a href="butce.php">
+                        <i class="fas fa-wallet"></i> Bütçe
+                    </a>
                 </li>
                 <li>
-                    <a href="./assets/view/singup.php"><i class="fas fa-user me-2"></i> Kullanıcı</a>
+                    <a href="gelirler.php">
+                        <i class="fas fa-money-bill-wave"></i> Gelirler
+                    </a>
                 </li>
                 <li>
-                    <a href="#"><i class="fas fa-cog me-2"></i> Ayarlar</a>
+                    <a href="giderler.php">
+                        <i class="fas fa-shopping-cart"></i> Giderler
+                    </a>
                 </li>
                 <li>
-                    <a href="./assets/view/logout.php"><i class="fas fa-sign-out-alt me-2"></i> Çıkış yap</a>
+                    <a href="cikis.php">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -308,6 +351,7 @@ $successMessage = getSuccessMessage();
                 
                 <h2 class="mb-4">Gösterge Paneli</h2>
                 
+                <!-- Bütçe Kartları -->
                 <div class="row mb-4">
                     <div class="col-md-4">
                         <div class="card budget-card">
@@ -344,6 +388,7 @@ $successMessage = getSuccessMessage();
                     </div>
                 </div>
                 
+                <!-- Gelir/Gider Listesi -->
                 <div class="row">
                     <!-- Son Gelirler -->
                     <div class="col-md-6 mb-4">
@@ -409,17 +454,189 @@ $successMessage = getSuccessMessage();
                         </div>
                     </div>
                 </div>
+
+                <!-- Özet Kartları -->
+                <div class="row mb-4">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card summary-card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">Aylık Tasarruf</h6>
+                                <h3 class="card-title mb-4"><?php echo number_format($totalIncome - $totalExpense, 2, ',', '.'); ?> ₺</h3>
+                                <div class="d-flex align-items-center">
+                                    <span class="text-success me-2">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </span>
+                                    <span>%<?php echo $totalExpense > 0 ? number_format(($totalIncome - $totalExpense) / $totalExpense * 100, 1) : 0; ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card summary-card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">Bütçe Kullanımı</h6>
+                                <h3 class="card-title mb-4"><?php echo $total_budget > 0 ? number_format($totalExpense / $total_budget * 100, 1) : 0; ?>%</h3>
+                                <div class="progress" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" style="width: <?php echo $total_budget > 0 ? min($totalExpense / $total_budget * 100, 100) : 0; ?>%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card summary-card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">En Yüksek Gider</h6>
+                                <?php
+                                $maxExpenseStmt = $conn->prepare("SELECT expense_type, SUM(amount) as total FROM expenses WHERE user_id = :user_id GROUP BY expense_type ORDER BY total DESC LIMIT 1");
+                                $maxExpenseStmt->bindParam(':user_id', $user_id);
+                                $maxExpenseStmt->execute();
+                                $maxExpense = $maxExpenseStmt->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <h3 class="card-title mb-4"><?php echo $maxExpense ? getExpenseTypeName($maxExpense['expense_type']) : 'Yok'; ?></h3>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas <?php echo $maxExpense ? getExpenseIcon($maxExpense['expense_type']) : 'fa-info-circle'; ?> me-2"></i>
+                                    <span><?php echo $maxExpense ? number_format($maxExpense['total'], 2, ',', '.') . ' ₺' : '0 ₺'; ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card summary-card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">En Yüksek Gelir</h6>
+                                <?php
+                                $maxIncomeStmt = $conn->prepare("SELECT income_type, SUM(amount) as total FROM incomes WHERE user_id = :user_id GROUP BY income_type ORDER BY total DESC LIMIT 1");
+                                $maxIncomeStmt->bindParam(':user_id', $user_id);
+                                $maxIncomeStmt->execute();
+                                $maxIncome = $maxIncomeStmt->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <h3 class="card-title mb-4"><?php echo $maxIncome ? getIncomeTypeName($maxIncome['income_type']) : 'Yok'; ?></h3>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas <?php echo $maxIncome ? getIncomeIcon($maxIncome['income_type']) : 'fa-info-circle'; ?> me-2"></i>
+                                    <span><?php echo $maxIncome ? number_format($maxIncome['total'], 2, ',', '.') . ' ₺' : '0 ₺'; ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grafikler -->
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Gelir/Gider Dağılımı</h5>
+                                <div class="chart-container">
+                                    <canvas id="incomeExpenseChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Gider Kategorileri</h5>
+                                <div class="chart-container">
+                                    <canvas id="expenseTypesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Sidebar toggle
             document.getElementById('sidebarCollapse').addEventListener('click', function() {
                 document.getElementById('sidebar').classList.toggle('collapsed');
                 document.getElementById('content').classList.toggle('expanded');
+            });
+
+            // Gelir/Gider Grafiği
+            const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
+            new Chart(incomeExpenseCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Son 30 Gün'],
+                    datasets: [
+                        {
+                            label: 'Gelir',
+                            data: [<?php echo $totalIncome; ?>],
+                            backgroundColor: '#198754',
+                            borderColor: '#198754',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Gider',
+                            data: [<?php echo $totalExpense; ?>],
+                            backgroundColor: '#dc3545',
+                            borderColor: '#dc3545',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gider Kategorileri Grafiği
+            <?php
+            $expenseTypesStmt = $conn->prepare("SELECT expense_type, SUM(amount) as total FROM expenses WHERE user_id = :user_id GROUP BY expense_type");
+            $expenseTypesStmt->bindParam(':user_id', $user_id);
+            $expenseTypesStmt->execute();
+            $expenseTypes = $expenseTypesStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $labels = [];
+            $data = [];
+            $backgroundColor = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+
+            foreach ($expenseTypes as $index => $type) {
+                $labels[] = getExpenseTypeName($type['expense_type']);
+                $data[] = $type['total'];
+            }
+            ?>
+
+            const expenseTypesCtx = document.getElementById('expenseTypesChart').getContext('2d');
+            new Chart(expenseTypesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: <?php echo json_encode($labels); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($data); ?>,
+                        backgroundColor: <?php echo json_encode($backgroundColor); ?>,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
             });
         });
     </script>
