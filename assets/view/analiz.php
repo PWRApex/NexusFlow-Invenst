@@ -196,72 +196,147 @@ $theme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
-        :root {
-            --primary-color: #0d6efd;
-            --secondary-color: #6c757d;
-            --success-color: #198754;
-            --danger-color: #dc3545;
-            --background-color: #f8f9fa;
-            --card-bg-color: #ffffff;
-            --text-color: #212529;
-            --border-color: rgba(0, 0, 0, 0.125);
-        }
-        
-        body.dark-theme {
-            --primary-color: #0d6efd;
-            --secondary-color: #6c757d;
-            --success-color: #198754;
-            --danger-color: #dc3545;
-            --background-color: #121212;
-            --card-bg-color: #1e1e1e;
-            --text-color: #f8f9fa;
-            --border-color: rgba(255, 255, 255, 0.125);
-        }
-        
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-        }
-        
-        .sidebar {
-            height: 100vh;
-            background-color: var(--card-bg-color);
-            color: var(--text-color);
+
+.sidebar {
+            width: 250px;
+            min-height: 100vh;
             position: fixed;
-            transition: all 0.3s;
-            z-index: 1000;
-            border-right: 1px solid var(--border-color);
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 20px 0;
+            background: linear-gradient(180deg, #2c3e50, #3498db);
+            color: white;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
         
-        .sidebar.collapsed {
-            margin-left: -250px;
+        .navbar {
+        background-color: white;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
         
         .sidebar-header {
             padding: 20px;
-            background-color: var(--primary-color);
-            color: white;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .sidebar ul li a {
-            padding: 15px;
-            display: block;
-            color: var(--text-color);
+        .sidebar-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .list-unstyled.components {
+            padding: 20px 0;
+        }
+        
+        .list-unstyled.components li {
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .list-unstyled.components li a {
+            color: white;
             text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 5px;
             transition: all 0.3s;
-            border-bottom: 1px solid var(--border-color);
         }
         
-        .sidebar ul li a:hover {
-            background-color: rgba(13, 110, 253, 0.1);
+        .list-unstyled.components li a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
         }
         
-        .sidebar ul li.active a {
-            background-color: var(--primary-color);
+        .list-unstyled.components li.active a {
+            background: rgba(255,255,255,0.2);
+            font-weight: bold;
+        }
+        
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px;
+                position: fixed;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .sidebar.active {
+                margin-left: 0;
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+            
+            .content.active {
+                margin-left: 250px;
+            }
+            
+            .btn-toggle-sidebar {
+                display: block;
+            }
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .budget-card {
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            color: white;
+        }
+
+        .income-card {
+            background: linear-gradient(45deg, #134e5e, #71b280);
             color: white;
         }
         
+        .expense-card {
+            background: linear-gradient(45deg, #cb2d3e, #ef473a);
+            color: white;
+        }
+        
+        .btn-light {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .btn-light:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-card {
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            color: white;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
         .content {
             transition: all 0.3s;
         }
@@ -270,11 +345,6 @@ $theme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
             margin-left: 0;
         }
         
-        .navbar {
-            background-color: var(--card-bg-color);
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            border-bottom: 1px solid var(--border-color);
-        }
         
         .card {
             border-radius: 10px;
@@ -293,10 +363,6 @@ $theme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
         
         .card-body {
             padding: 20px;
-        }
-        
-        .btn-toggle-sidebar {
-            margin-right: 15px;
         }
         
         .stat-card {
@@ -321,19 +387,23 @@ $theme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
         }
         
         .stat-card.income {
-            background-color: var(--success-color);
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            color: white;
         }
         
         .stat-card.expense {
-            background-color: var(--danger-color);
+            background: linear-gradient(45deg, #cb2d3e, #ef473a);
+            color: white;
         }
         
         .stat-card.savings {
-            background-color: var(--primary-color);
+            background: linear-gradient(45deg, #134e5e, #71b280);
+            color: white;
         }
         
         .stat-card.rate {
-            background-color: var(--secondary-color);
+            background: linear-gradient(45deg,rgb(94, 95, 95),rgb(44, 48, 45));
+            color: white;
         }
         
         .stat-icon {
@@ -435,30 +505,317 @@ $theme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
     </style>
 </head>
 <body class="<?php echo $theme === 'dark' ? 'dark-theme' : ''; ?>">
+    <style>
+        /* NEW 1.02 SIDEBAR */
+    :root {
+        --primary-color: #0d6efd;
+        --success-color: #198754;
+        --danger-color: #dc3545;
+        --dark-color: #343a40;
+        --light-color: #f8f9fa;
+        --border-radius: 10px;
+        --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s ease;
+    }
+    
+    body {
+        background-color: var(--light-color);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background-color: var(--dark-color);
+        color: white;
+        position: fixed;
+        transition: var(--transition);
+        z-index: 1000;
+    }
+    
+    .sidebar.collapsed {
+        margin-left: -250px;
+    }
+    
+    .sidebar-header {
+        padding: 20px;
+    }
+    
+    .sidebar ul li a {
+        padding: 15px;
+        display: block;
+        color: white;
+        text-decoration: none;
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+    }
+    
+    .sidebar ul li a:hover {
+        background-color: #495057;
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .sidebar ul li.active a {
+        background-color: var(--primary-color);
+        border-left: 3px solid white;
+    }
+    
+    .content {
+        margin-left: 250px;
+        transition: var(--transition);
+    }
+    
+    .content.expanded {
+        margin-left: 0;
+    }
+    
+    .navbar {
+        background-color: white;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .card {
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        margin-bottom: 20px;
+        border: none;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        background-color: var(--light-color);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        font-weight: 600;
+        padding: 15px 20px;
+    }
+    
+    .budget-card {
+        background-color: var(--primary-color);
+        color: white;
+        transition: var(--transition);
+    }
+    
+    .budget-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .modal-content {
+        background-color: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+            border: none;
+            color: white;
+            transition: all 0.3s;
+    }
+
+    .income-card {
+        background-color: var(--success-color);
+        color: white;
+        transition: var(--transition);
+    }
+    
+    .income-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .expense-card {
+        background-color: var(--danger-color);
+        color: white;
+        transition: var(--transition);
+    }
+    
+    .expense-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .budget-amount {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 15px 0;
+    }
+    
+    .list-group-item {
+        border: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        margin-bottom: 0;
+        padding: 15px 20px;
+        transition: var(--transition);
+    }
+    
+    .list-group-item:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+    
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+    
+    .income-item {
+        border-left: 4px solid var(--success-color);
+    }
+    
+    .expense-item {
+        border-left: 4px solid var(--danger-color);
+    }
+    
+    .item-amount {
+        font-weight: 600;
+    }
+    
+    .income-amount {
+        color: var(--success-color);
+    }
+    
+    .expense-amount {
+        color: var(--danger-color);
+    }
+    
+    .btn-toggle-sidebar {
+        margin-right: 15px;
+    }
+    
+    .modal-header {
+        background-color: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .modal-footer {
+        background-color: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .btn {
+        border-radius: 5px;
+        padding: 8px 16px;
+        font-weight: 500;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    .btn-success {
+        background-color: var(--success-color);
+        border-color: var(--success-color);
+    }
+    
+    .btn-danger {
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin: 20px 0;
+    }
+    
+    .transaction-date {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 5px;
+    }
+    
+    .btn-action {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .filter-section {
+        background-color: white;
+        border-radius: var(--border-radius);
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: var(--box-shadow);
+    }
+    
+    .summary-card {
+        background-color: white;
+        border-radius: var(--border-radius);
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: var(--box-shadow);
+        text-align: center;
+    }
+    
+    .summary-title {
+        font-size: 1rem;
+        color: #6c757d;
+        margin-bottom: 10px;
+    }
+    
+    .summary-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    
+    .positive-value {
+        color: var(--success-color);
+    }
+    
+    .negative-value {
+        color: var(--danger-color);
+    }
+    
+    .neutral-value {
+        color: var(--primary-color);
+    }
+    
+    @media (max-width: 768px) {
+        .sidebar {
+            margin-left: -250px;
+        }
+        
+        .sidebar.active {
+            margin-left: 0;
+        }
+        
+        .content {
+            margin-left: 0;
+        }
+        
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+        }
+        
+        .budget-amount {
+            font-size: 2rem;
+        }
+    }
+    </style>
     <div class="wrapper d-flex">
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <h3>NexusFlow</h3>
+                <h3>NexusFlow2</h3>
             </div>
             <ul class="list-unstyled components">
                 <li>
-                    <a href="../../index.php"><i class="fas fa-tachometer-alt me-2"></i> Gösterge Paneli</a>
+                    <a href="./../../index.php">
+                        <i class="fas fa-chart-line"></i> Gösterge Paneli
+                    </a>
                 </li>
                 <li class="active">
-                    <a href="./analiz.php"><i class="fas fa-chart-bar me-2"></i> Analitik</a>
+                    <a href="analiz.php">
+                        <i class="fas fa-chart-bar"></i> Analiz
+                    </a>
                 </li>
                 <li>
-                    <a href="./budget.php"><i class="fas fa-wallet me-2"></i> Bütçe</a>
+                    <a href="budget.php">
+                        <i class="fas fa-wallet"></i> Bütçe
+                    </a>
                 </li>
                 <li>
-                    <a href="./kullanıcı.php"><i class="fas fa-user me-2"></i> Kullanıcı</a>
-                </li>
-                <li>
-                    <a href="./ayarlar.php"><i class="fas fa-cog me-2"></i> Ayarlar</a>
-                </li>
-                <li>
-                    <a href="./logout.php"><i class="fas fa-sign-out-alt me-2"></i> Çıkış yap</a>
+                    <a href="logout.php">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -540,7 +897,7 @@ $theme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
                     <div class="col-md-3">
                         <div class="stat-card savings">
                             <div class="stat-icon">
-                                <i class="fas fa-piggy-bank"></i>
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
                             </div>
                             <div class="stat-title">Net Tasarruf</div>
                             <div class="stat-value"><?php echo number_format($netSavings, 2, ',', '.'); ?> ₺</div>

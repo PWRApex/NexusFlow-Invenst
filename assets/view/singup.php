@@ -150,15 +150,6 @@ $errorMessage = getErrorMessage();
             color: #0d6efd;
             text-decoration: none;
         }
-        .home-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: #0d6efd;
-            text-decoration: none;
-        }
-        .home-link:hover {
-            text-decoration: underline;
-        }
         .alert {
             margin-bottom: 20px;
         }
@@ -214,7 +205,6 @@ $errorMessage = getErrorMessage();
                                 <p>Zaten hesabınız var mı? <a href="login.php">Giriş Yap</a></p>
                             </div>
                         </form>
-                        <a href="../../index.php" class="home-link"><i class="fas fa-home me-1"></i> Ana Sayfaya Dön</a>
                     </div>
                 </div>
             </div>

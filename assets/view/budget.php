@@ -1166,17 +1166,7 @@ function getExpenseTypeName($type) {
                     </a>
                 </li>
                 <li>
-                    <a href="gelirler.php">
-                        <i class="fas fa-money-bill-wave"></i> Gelirler
-                    </a>
-                </li>
-                <li>
-                    <a href="giderler.php">
-                        <i class="fas fa-shopping-cart"></i> Giderler
-                    </a>
-                </li>
-                <li>
-                    <a href="cikis.php">
+                    <a href="login.php">
                         <i class="fas fa-sign-out-alt"></i> Çıkış Yap
                     </a>
                 </li>
